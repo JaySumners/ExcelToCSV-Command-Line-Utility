@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ExcelToCSV": {
+      "commandName": "Project",
+      "commandLineArgs": "--help"
+    }
+  }
+}

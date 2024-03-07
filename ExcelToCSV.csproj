@@ -1,0 +1,54 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<!-- Build/Publish Properties-->
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+	<DebugType Condition="'$(Configuration)' == 'Release'">none</DebugType>
+	  
+	<!--Project Properites-->    
+	<ImplicitUsings>false</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <StartupObject>ExcelToCSV.Program</StartupObject>
+    <PublishAot>false</PublishAot>
+	  
+	<!--Versioning Manual-->
+	<Major>1</Major>
+	<Minor>0</Minor>
+	<VersionSuffix>alpha.2</VersionSuffix>
+	  
+	<!--Versioning Calculated-->
+	<!--
+	    NOTE: This is a hacked solution. May cause a feedback loop with Git or Nuget.
+		You would need to find a different versioning solution if you intend to put it there.
+		Build: Will not change within a day.
+		Revision: Will not change within an hour.
+    -->
+	<Build>$([System.DateTime]::op_Subtraction($([System.DateTime]::get_UtcNow().get_Date()), $([System.DateTime]::new(2024,1,1))).get_Days())</Build>
+	<Revision>$([System.DateTime]::get_UtcNow().get_Hour())</Revision>
+	<!--<Revision>$([MSBuild]::Divide($([System.DateTime]::get_UtcNow().get_TimeOfDay().get_TotalSeconds()), 2).ToString('F0'))</Revision>-->
+	<PreRelease>alpha.1</PreRelease>
+	<VersionPrefix>$(Major).$(Minor).$(Build).$(Revision)</VersionPrefix>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DocumentFormat.OpenXml" Version="3.0.1" />
+    <PackageReference Include="System.CommandLine.Hosting" Version="0.4.0-alpha.22272.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>
