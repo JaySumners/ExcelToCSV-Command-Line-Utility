@@ -14,7 +14,8 @@
 	  
 	<!--Versioning Manual-->
 	<Major>1</Major>
-	<Minor>0</Minor>	  
+	<Minor>0</Minor>
+	<VersionSuffix>alpha</VersionSuffix>
 	<!--Versioning Calculated-->
 	<!--
 	    NOTE: This is a hacked solution. May cause a feedback loop with Git or Nuget.
@@ -25,7 +26,7 @@
     -->
 	<Build>$([System.DateTime]::op_Subtraction($([System.DateTime]::get_UtcNow().get_Date()), $([System.DateTime]::new(2024,1,1))).get_Days())</Build>
 	<Revision>$([System.DateTime]::get_UtcNow().get_Hour())</Revision>
-	<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+	<IncludeSourceRevisionInInformationalVersion>true</IncludeSourceRevisionInInformationalVersion>
 	<VersionPrefix>$(Major).$(Minor).$(Build).$(Revision)</VersionPrefix>
   </PropertyGroup>
 
