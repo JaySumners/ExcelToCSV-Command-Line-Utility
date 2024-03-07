@@ -14,20 +14,18 @@
 	  
 	<!--Versioning Manual-->
 	<Major>1</Major>
-	<Minor>0</Minor>
-	<VersionSuffix>alpha.2</VersionSuffix>
-	  
+	<Minor>0</Minor>	  
 	<!--Versioning Calculated-->
 	<!--
 	    NOTE: This is a hacked solution. May cause a feedback loop with Git or Nuget.
 		You would need to find a different versioning solution if you intend to put it there.
 		Build: Will not change within a day.
 		Revision: Will not change within an hour.
+		Suffix: The git commit
     -->
 	<Build>$([System.DateTime]::op_Subtraction($([System.DateTime]::get_UtcNow().get_Date()), $([System.DateTime]::new(2024,1,1))).get_Days())</Build>
 	<Revision>$([System.DateTime]::get_UtcNow().get_Hour())</Revision>
-	<!--<Revision>$([MSBuild]::Divide($([System.DateTime]::get_UtcNow().get_TimeOfDay().get_TotalSeconds()), 2).ToString('F0'))</Revision>-->
-	<PreRelease>alpha.1</PreRelease>
+	<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
 	<VersionPrefix>$(Major).$(Minor).$(Build).$(Revision)</VersionPrefix>
   </PropertyGroup>
 
