@@ -26,7 +26,11 @@ internal class WorksheetPartModel
     #endregion
 
     #region Constant Properties
-    private const string NULL_CELL = "\"\"";
+    private const string NULL_CELL = "";
+    #endregion
+
+    #region Static Properties
+    private static List<char> _escapableStrings = [',', '"', (char)13, (char)10];
     #endregion
 
     #region Private Properties
@@ -198,9 +202,18 @@ internal class WorksheetPartModel
         Console.Write($"[{new string('#', completeHashes)}{new string('-', 10 - completeHashes)}]");
         Console.Write($" {percentComplete:P0}");
     }
-
     private static string EscapeString(string str)
     {
+        if (string.IsNullOrEmpty(str))
+        {
+            return str;
+        }
+
+        if (_escapableStrings.Any(str.Contains))
+        {
+            str = $"\"{str}\"";
+        }
+
         return str.Replace("\"", "\"\"");
     }
     private void AddEmptyRows(int rowId, StreamWriter writer)
@@ -256,7 +269,7 @@ internal class WorksheetPartModel
         #endregion
 
         #region Complete Line
-        rowStrings.AddRange(Enumerable.Repeat(NULL_CELL, _rangeReference.EndCellReference.RowNumber - rowStrings.Count));
+        rowStrings.AddRange(Enumerable.Repeat(NULL_CELL, _rangeReference.EndCellReference.ColumnNumber - rowStrings.Count));
         #endregion
 
         #region Indexed
@@ -282,13 +295,13 @@ internal class WorksheetPartModel
                 (CellReferenceModel cellReference, string cellValue) = ParseCell(wsPartReader);
 
                 #region Add Null Cells in Row
-                if (rowStrings.Count < cellReference.ColumnNumber)
+                if ((rowStrings.Count + 1) < cellReference.ColumnNumber)
                 {
-                    rowStrings.AddRange(Enumerable.Repeat(NULL_CELL, cellReference.ColumnNumber - rowStrings.Count));
+                    rowStrings.AddRange(Enumerable.Repeat(NULL_CELL, cellReference.ColumnNumber - (rowStrings.Count + 1)));
                 }
                 #endregion
 
-                rowStrings.Add(string.IsNullOrEmpty(cellValue) ? NULL_CELL : $"\"{cellValue}\"");
+                rowStrings.Add(string.IsNullOrEmpty(cellValue) ? NULL_CELL : cellValue);
             }
         } while (wsPartReader.ReadNextSibling()); //Cells
         #endregion

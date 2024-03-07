@@ -2,7 +2,7 @@
   "profiles": {
     "ExcelToCSV": {
       "commandName": "Project",
-      "commandLineArgs": "--help"
+      "commandLineArgs": "\"C:\\Users\\jaysu\\Desktop\\test\\test3.xlsx\""
     }
   }
 }
